@@ -3,7 +3,7 @@
 cp notes.wiki_html/* . 
 
 git add .
-git commit -m $0
+git commit -m $1
 git push
 
 rm *.html
