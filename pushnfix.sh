@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/zsh
 
 cp notes.wiki_html/* . 
 
