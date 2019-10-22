@@ -140,4 +140,41 @@ Technically, no limit, as long as *<= 10 users are active* at the same time. the
 - 99.96%
 - Packet switching allows more users to use network!
 
+Assuming we have 35 users in total. Also, Each user is active in 10% of time, which means that the probability that a user is active is 0.1 
+Let X denote the number of active users, P(X<=10) the probability thaat there are <= 10 active users (transmitting), and P(X>=11) the probability that there are 11 or more active users. Obviously, 1 = P(X<=10) + P(X>=11)
+
+
+Is packet switching a "slam dunk winner"?
+- great for bursty data
+	- resource sharing
+	- simpler, no call setup
+- excessive congestion possible: packet delay and loss 
+	- protocols needed for reliable data transfer, congestion control
+
+
+=== Network of networks ===
+
+Question: give _millions_ of access ISPs, how to connect them together?
+- at center: small # of well-connected large networks:
+	- "tier-1" commercial ISPs (e.g., Level 3, Sprint, AT&T, NTT), national & international coverage
+	- content provider network (e.g., Google): private network that connects it data centers to Internet, often bypaassing tier-1, regional ISPs
+
+=== Delay, Loss, Throughput in networks ===
+
+How do loss and delay occur?
+Packets _queue_ in router buffers
+- packet arrival rate to link (temporarily) exceeds output link capacity
+- packet queue, wait for turn
+
+4 types of delay:
+1. transmission delay: amount of time required to push all the packet's bits into the wire. the delay caused by the data-rate of the link
+	- transmission delay = length/size of data packet / bandwidth of network
+2. queueing delay: amount of time required waiting in the queue before its taken to execution
+	- depends on the ocngestion in the network
+3. nodal processing: time taken by the processor to process the data packets
+	- depends on the speed ofthe processor 
+4. propagation delay: time taken for one bit to travel from sender to received end of the link.
+	- propagration delay = distance between sender and receiver / transmission speed
+
+
 

@@ -421,5 +421,109 @@ Packet switching allows more users to use network!
 
 </ul>
 
+<p>
+Assuming we have 35 users in total. Also, Each user is active in 10% of time, which means that the probability that a user is active is 0.1 
+Let X denote the number of active users, P(X&lt;=10) the probability thaat there are &lt;= 10 active users (transmitting), and P(X&gt;=11) the probability that there are 11 or more active users. Obviously, 1 = P(X&lt;=10) + P(X&gt;=11)
+</p>
+
+
+<p>
+Is packet switching a "slam dunk winner"?
+</p>
+<ul>
+<li>
+great for bursty data
+
+<ul>
+<li>
+resource sharing
+
+<li>
+simpler, no call setup
+
+</ul>
+<li>
+excessive congestion possible: packet delay and loss 
+
+<ul>
+<li>
+protocols needed for reliable data transfer, congestion control
+
+</ul>
+</ul>
+
+
+<div id="Introduction to Networking-Structure of the Internet-Network of networks"><h3 id="Network of networks" class="header"><a href="#Introduction to Networking-Structure of the Internet-Network of networks">Network of networks</a></h3></div>
+
+<p>
+Question: give <em>millions</em> of access ISPs, how to connect them together?
+</p>
+<ul>
+<li>
+at center: small # of well-connected large networks:
+
+<ul>
+<li>
+"tier-1" commercial ISPs (e.g., Level 3, Sprint, AT&amp;T, NTT), national &amp; international coverage
+
+<li>
+content provider network (e.g., Google): private network that connects it data centers to Internet, often bypaassing tier-1, regional ISPs
+
+</ul>
+</ul>
+
+<div id="Introduction to Networking-Structure of the Internet-Delay, Loss, Throughput in networks"><h3 id="Delay, Loss, Throughput in networks" class="header"><a href="#Introduction to Networking-Structure of the Internet-Delay, Loss, Throughput in networks">Delay, Loss, Throughput in networks</a></h3></div>
+
+<p>
+How do loss and delay occur?
+Packets <em>queue</em> in router buffers
+</p>
+<ul>
+<li>
+packet arrival rate to link (temporarily) exceeds output link capacity
+
+<li>
+packet queue, wait for turn
+
+</ul>
+
+<p>
+4 types of delay:
+</p>
+<ol>
+<li>
+transmission delay: amount of time required to push all the packet's bits into the wire. the delay caused by the data-rate of the link
+
+<ul>
+<li>
+transmission delay = length/size of data packet / bandwidth of network
+
+</ul>
+<li>
+queueing delay: amount of time required waiting in the queue before its taken to execution
+
+<ul>
+<li>
+depends on the ocngestion in the network
+
+</ul>
+<li>
+nodal processing: time taken by the processor to process the data packets
+
+<ul>
+<li>
+depends on the speed ofthe processor 
+
+</ul>
+<li>
+propagation delay: time taken for one bit to travel from sender to received end of the link.
+
+<ul>
+<li>
+propagration delay = distance between sender and receiver / transmission speed
+
+</ul>
+</ol>
+
 </body>
 </html>
