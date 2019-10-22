@@ -6,4 +6,5 @@ git add .
 git commit -m $0
 git push
 
-rem
+rm *.html
+rm *.css
