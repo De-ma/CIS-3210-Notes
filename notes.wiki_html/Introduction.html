@@ -525,5 +525,271 @@ propagration delay = distance between sender and receiver / transmission speed
 </ul>
 </ol>
 
+
+<div id="Introduction to Networking-Structure of the Internet-Packet loss"><h3 id="Packet loss" class="header"><a href="#Introduction to Networking-Structure of the Internet-Packet loss">Packet loss</a></h3></div>
+
+<ul>
+<li>
+queue (aka buffer) preceding link in buffer has finite capacity
+
+<li>
+packet arriving to full queue dropped (aka lost)
+
+<li>
+lost packet may be retransmitted by previous node, by source end sysetm, or not at all
+
+<li>
+What do "real" internet delay &amp; loss look like?
+
+<ul>
+<li>
+<span id="Introduction to Networking-Structure of the Internet-Packet loss-traceroute"></span><strong id="traceroute">traceroute</strong> program: provides delay measurement from source to router along end-end Internet path towards destination For all i:
+
+<ul>
+<li>
+sends three packets that will reach router i on path towards destination
+
+<li>
+router i will return packets to sender
+
+<li>
+sender times interval between transmission and reply.
+
+</ul>
+</ul>
+</ul>
+
+<div id="Introduction to Networking-Structure of the Internet-Throughput"><h3 id="Throughput" class="header"><a href="#Introduction to Networking-Structure of the Internet-Throughput">Throughput</a></h3></div>
+
+<ul>
+<li>
+throughput: rate (bits/time unit) at which bits transferred between sender/receiver
+
+<ul>
+<li>
+instantaneous: rate at given point in time
+
+<li>
+average: rate over longer period of time
+
+</ul>
+</ul>
+
+<div id="Introduction to Networking-Structure of the Internet-Protocol Layers"><h3 id="Protocol Layers" class="header"><a href="#Introduction to Networking-Structure of the Internet-Protocol Layers">Protocol Layers</a></h3></div>
+
+<p>
+Networks are complex, with many "pieces":
+</p>
+<ul>
+<li>
+hosts
+
+<li>
+routers
+
+<li>
+links of various media
+
+<li>
+applications
+
+<li>
+protocols
+
+<li>
+hardware, software
+
+</ul>
+
+<p>
+layers: each layer implements a service
+</p>
+<ul>
+<li>
+via its own internal-layer actions
+
+<li>
+relying on services provided by layer below
+
+</ul>
+
+<p>
+Why layering?
+</p>
+
+<p>
+dealing with complex systems:
+</p>
+<ul>
+<li>
+explicit structure allows identification, relationship of complex system's pieces
+
+<ul>
+<li>
+layered <span id="Introduction to Networking-Structure of the Internet-Protocol Layers-reference model"></span><strong id="reference model">reference model</strong> for discussion
+
+</ul>
+<li>
+modularization eases maintenance, updating of system
+
+<ul>
+<li>
+change of implementation of layer's service transparent to rest of system
+
+<li>
+e.g., change in gate procedure doesn't affect rest of system
+
+</ul>
+</ul>
+
+<ul>
+<li>
+Internet Protocol Stack *
+
+</ul>
+
+<ul>
+<li>
+application: supporting network applications
+
+<ul>
+<li>
+e.g., FTP, SMTP, HTTP
+
+</ul>
+<li>
+transport: process-process data transfer
+
+<ul>
+<li>
+TCP, UDP
+
+</ul>
+<li>
+network: routing of datagrams from source to destination
+
+<ul>
+<li>
+IP, routing protocols
+
+</ul>
+<li>
+link: data transfer between neighboring network elements
+
+<ul>
+<li>
+Ethernet, 802.111 (WiFi), PPP
+
+</ul>
+<li>
+physical: bits "on the wire"
+
+</ul>
+
+<p>
+ISO/OSI reference model
+</p>
+<ul>
+<li>
+presentation: allow application to interpret meaning of data, e.g., encryption, compression, machine specific conventions
+
+<li>
+session: synchronization, checkpointing, recovery of data exchange
+
+<li>
+Internet stack "missing" these layers!
+
+</ul>
+<table>
+<tr>
+<th>
+Internet Protocol Stack
+</th>
+<th>
+&nbsp;
+</th>
+<th>
+&nbsp;
+</th>
+</tr>
+<tr>
+<th>
+application
+</th>
+<th>
+&nbsp;
+</th>
+<th>
+&nbsp;
+</th>
+</tr>
+<tr>
+<th>
+transport
+</th>
+<th>
+&nbsp;
+</th>
+<th>
+&nbsp;
+</th>
+</tr>
+<tr>
+<td>
+network
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+-------------------------
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+link
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+physical
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+</table>
+
 </body>
 </html>
