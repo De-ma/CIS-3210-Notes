@@ -1,0 +1,143 @@
+= Introduction to Networking =
+
+=== What is the internet? ===
+
+- A computer network is a set of computers connected together for the purpose of sharing resources. The *Internet* is the most widely used one in the world today.
+
+- billions of connected computing devices:
+        - hosts = end systems
+        - running network apps
+- Communication links:
+        - fiber, copper, radio, satellite
+        - transmission rate:
+                - bandwidth
+- Packet switches: forward packets (chunks of data):
+	- devices that server as hubs between communication links and forward arriving packets from their incoming links to the outgoing links
+	- routers and switches
+
+=== What's the internet: "nuts and bolts" view ===
+
+- *Packets* are packages of information
+- A *route* is a sequence of links and packet switches travered by a packet on its way from the sending host to the destination host
+- *Internet Service Providers* (ISP) are network of packet switchers and links that provide the communication infrastructure to the end users
+- _Internet_: "network of networks":
+	- Interconnected ISPs
+- _Protocols_ control sneding, receiving of messages:
+	- A protocol is a system of rules that allows multiple entites to communicate information to each other
+	- e.g., TCP, IP, HTTP, Skype, 802.11
+- Standards organization developing Internet standards:
+ 	- IETF (Internet Engineering Task Force)
+	- RFC (Request of comments):
+		- e.g. protocols including TCP, IP, HTTP, and SMTP
+	- IEEE 802 LAN/MAN Standards Committee: Ethernet and wireless WiFi standards
+
+=== What's the internet: a service view ===
+
+- _infrastructure that provides services to applications_:
+	- Web, VoIP, email, gaames, e-commerce, social nets, ...
+- _provides prograamming interfaace to apps - Socket interface_:
+	- hooks that allow sending and receiving app programs to "connect" to Internet
+	- provides service options, analogous to postal server
+
+=== Network Sockets === 
+- Since every hosts (computer) usually has *multiple programs* that communicate over the network, it's not enough to deliver data to a specific host - we need to deliver it to a specific program
+- This is  done using sockets - software interfaces that allow a process living on one host to communicate over the network with anohter process, typically living on another host
+	- However, you can communicate locally using sockets - more on that later
+- A socket is an interface for an application to connect to a host's network stack (part of the OS).
+	- In networking jargon, a stack is a collection of software technologies or protocols working together
+	- E.g. the TCP/IP stack used by the internet
+- After connecting, an application is able to bidirectionally exchange data with other processes on the same or another host.
+- Sockets are tied to specific network protocols, as we will see when we get to Unix sockets
+
+=== What's a protocol === 
+- human protocols:
+	- "whats the time?"
+	- "I have a question"
+	- introductions
+- network protocols:
+	- machines rather than human
+	- all communucation activity in Internet governed by protocols
+*Protocols define format, order of messages sent and received among network entities, and actions taken on message transmission, receipt*
+
+*All the standard network protocols (like, HTTP, FTP, SMTP, TCP, UCP, IP, etc) are defined as RFCs, controlled by IETF*
+
+== Structure of the Internet ==
+
+=== A closer look at network structure ===
+- network edge:
+	- hosts: clients and servers
+	- servers often in data centers
+- access networks, physical media: wired, wireless communication links
+- network core:
+	- interconnected routers
+	- network of networks
+
+=== Network Core === 
+
+- mesh of interconnected routers
+- packet-switching: hosts break application-layer messages into _packets_
+	- forward packets from one router to the next, across links on path from source to destination
+	- each packet transmitted at full link capactiy
+
+Host: sends _packets_ of data
+
+- host sending function:
+	- takes application message
+	- breaks into smaller chunks, known as _packets_, of length _L_ bits
+	- transmits packet into access network at _transmission rate R_
+		- link transmission raate, aka link _capacity_ or _link bandwidth_
+
+packet transmission delay = time needed to transmit L-bit packet into link = L (bits) / R (bits/sec)
+
+Packet-switching: store-and-forward
+
+- takes L/R seconds to transmit (push out) L-bit packet into link at R bps
+- _store and forward_: entire packet must arrive at router before it can be transmitted on next link
+- end-end delay = 2L/R (assuming zero propagation delay)
+
+one-hope numerical example:
+1. L = 7.5 Mbits
+2. R = 1.5 Mbps
+3. one-hop transmission delay = L/R = 5 sec
+
+Packet-switching: queueing delay and packet loss
+
+queueing and loss:
+	- if arrival rate (in bits) to link exceeds transmission rate of link for a period of time:
+		- packets will queue, wait to be transmitted on link
+		- packets can be dropped (lost) if memory (buffer) fills up
+
+=== Two key network-core functions === 
+
+_routing_: determines source-destination route taaken by packets
+_forwarding_: move pacakets from router's input to appropriate router output
+
+Alternative core: circuit switching
+
+end-end resources allocated to, reserved for "call" between source & dest:
+	- in diagram, each link has four circuits.
+		- call gets 2nd circuit in top link and 1st circuit in right link
+	- dedicated resources: no sharing
+		- circuit-like (guaranteed) performance
+	- circuit segment idle if not used by call (no sharing)
+	- commonly used in tranditional telephone networks
+
+Packet switching versus circuit switching
+
+example:
+- 1 Mb/s link
+- each user:
+	- 100 kb/s when "active"
+	- active 10% of the time
+
+Using *Circuit switching*, how many users are allowed?
+
+Each user reserves 100 Kb/s, no sharing, so maximum 10 users allowed (1 Mbps/100 Kbps)
+
+Using *Packet Switching*, how many users are allowed?
+
+Technically, no limit, as long as *<= 10 users are active* at the same time. then, what's the probability of that, assuming we haave *35* users in total?
+- 99.96%
+- Packet switching allows more users to use network!
+
+
