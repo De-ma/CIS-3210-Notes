@@ -177,4 +177,72 @@ Packets _queue_ in router buffers
 	- propagration delay = distance between sender and receiver / transmission speed
 
 
+=== Packet loss ===
 
+- queue (aka buffer) preceding link in buffer has finite capacity
+- packet arriving to full queue dropped (aka lost)
+- lost packet may be retransmitted by previous node, by source end sysetm, or not at all
+- What do "real" internet delay & loss look like?
+	- *traceroute* program: provides delay measurement from source to router along end-end Internet path towards destination For all i:
+		- sends three packets that will reach router i on path towards destination
+		- router i will return packets to sender
+		- sender times interval between transmission and reply.
+
+=== Throughput ===
+
+- throughput: rate (bits/time unit) at which bits transferred between sender/receiver
+	- instantaneous: rate at given point in time
+	- average: rate over longer period of time
+
+=== Protocol Layers ===
+
+Networks are complex, with many "pieces":
+- hosts
+- routers
+- links of various media
+- applications
+- protocols
+- hardware, software
+
+layers: each layer implements a service
+	- via its own internal-layer actions
+	- relying on services provided by layer below
+
+Why layering?
+
+dealing with complex systems:
+	- explicit structure allows identification, relationship of complex system's pieces
+		- layered *reference model* for discussion
+	- modularization eases maintenance, updating of system
+		- change of implementation of layer's service transparent to rest of system
+		- e.g., change in gate procedure doesn't affect rest of system
+
+* Internet Protocol Stack *
+
+- application: supporting network applications
+	- e.g., FTP, SMTP, HTTP
+- transport: process-process data transfer
+	- TCP, UDP
+- network: routing of datagrams from source to destination
+	- IP, routing protocols
+- link: data transfer between neighboring network elements
+	- Ethernet, 802.111 (WiFi), PPP
+- physical: bits "on the wire"
+
+ISO/OSI reference model
+- presentation: allow application to interpret meaning of data, e.g., encryption, compression, machine specific conventions
+- session: synchronization, checkpointing, recovery of data exchange
+- Internet stack "missing" these layers!
+
+
+| Internet Protocol Stack   |   |   |
+|---------------------------|---|---|
+| application               |   |   |
+|---------------------------|---|---|
+| transport                 |   |   |
+|---------------------------|---|---|
+| network                   |   |   |
+| ------------------------- |   |   |
+| link                      |   |   |
+| physical                  |   |   |
+|                           |   |   |
