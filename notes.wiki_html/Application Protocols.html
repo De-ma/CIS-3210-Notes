@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<title>Application Protocols</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+
+<div id="Application Protocols"><h1 id="Application Protocols" class="header"><a href="#Application Protocols">Application Protocols</a></h1></div>
+
+<div id="Application Protocols-Tools for the web"><h3 id="Tools for the web" class="header"><a href="#Application Protocols-Tools for the web">Tools for the web</a></h3></div>
+
+<ul>
+<li>
+HTML - the markup language for encoding text and images
+
+<ul>
+<li>
+Hypertext Markup Language
+
+</ul>
+<li>
+Web page
+
+<ul>
+<li>
+A web page consists of objects: HTML file, as well as various resources: images, audio, video, JavaScript code, etc
+
+<ul>
+<li>
+if a Web page contains HTML text and give JPEG images, then the Web page has six objects: the base HTML file plus the five images
+
+</ul>
+</ul>
+<li>
+Typical Web communications over the network consists of clients requesting resources from servers, and occasionally sending some data back
+
+<li>
+HTTP - the protocol for exchanging data between content providers (servers) and content consumers (browsers on clients)
+
+<ul>
+<li>
+hypertext transfer protocol
+
+</ul>
+</ul>
+
+<p>
+Web &amp; HTTP
+</p>
+
+<ul>
+<li>
+Each object is addressable by a URL (Uniform Resource Locator), e.g.,
+
+</ul>
+ 
+ 
+<p>
+ socs.uoguelph.ca/~xlin08/img/xlin.jpg
+</p>
+ 
+<p>
+ host name         path name
+</p>
+ 
+<p>
+To display a page:
+</p>
+<ul>
+<li>
+Browser (HTTP client) requests page from a web server (HTTP server)
+
+<li>
+parses page and finds URLs to referenced objects
+
+<li>
+requests objects
+
+<li>
+displays web page text and objects in browser window
+
+</ul>
+
+<div id="Application Protocols-HTTP overview"><h3 id="HTTP overview" class="header"><a href="#Application Protocols-HTTP overview">HTTP overview</a></h3></div>
+
+<p>
+HTTP: hypertext transfer protocol
+</p>
+<ul>
+<li>
+an application layer protocol 
+
+<li>
+client/server model
+
+<ul>
+<li>
+client: browser that requests, receives, (using HTTP protocol) and "displays" Web objects, e.g., Google Chrome, Internet Explorer (IE), Firefox, Safari.
+
+<li>
+server: Web server sends (using HTTP protocol) objects, e.g., Apache, Microsoft's Internet Information Server (IIS).
+
+</ul>
+</ul>
+
+<p>
+HTTP communication use TCP:
+</p>
+<ul>
+<li>
+client initiates TCP connection (creates socket) to server, port 80
+
+<li>
+server accepts TCP connection from client
+
+<ul>
+<li>
+starts a sepaarate thread to process client requests, or allocates one from a thread pool
+
+</ul>
+<li>
+HTTP messages (application-layer protocol messages) exchanged between browser (HTTP client) and Web server (HTTP server)
+
+<li>
+TCP connection close
+
+</ul>
+
+<p>
+HTTP - Design Requirements 
+</p>
+
+<ul>
+<li>
+A protocol defines the format and the order of messages exchanged between two or more communicating entites, as well as the actions taken on the transmission and/or receipt of a message or another event. 
+
+</ul>
+  
+<ul>
+<li>
+So we need:
+
+<ul>
+<li>
+format for messages from client to server, e.g. ask server for stuff or send the server stuff
+
+<li>
+format for messages from server to client, e.g. acknowledge request and send data to client, indicate inability to process request.
+
+</ul>
+</ul>
+
+<ul>
+<li>
+HTTP is "stateless" - server maintains no information about pas client requests
+
+<li>
+Two htypes of HTTP messages: request, response
+
+<li>
+basic requests: GET, HEAD, POST, PUT, DELETE
+
+<ul>
+<li>
+GET: requests a page
+
+<li>
+HEAD: similar to GET but noobject returned, just a header
+
+<li>
+POST: request a page based on filling out a form
+
+<li>
+PUT: upload an object to a server
+
+<li>
+DELETE: delete an object from a server
+
+</ul>
+</ul>
+
+<p>
+HTTP request mesaage exmaple
+</p>
+
+<ul>
+<li>
+HTTP request message:
+
+<ul>
+<li>
+ASCII (human-readable format)
+
+</ul>
+</ul>
+
+<p>
+HTTP response status codes
+</p>
+
+<ul>
+<li>
+status code appears in 1st line in server-to-client response message.
+
+<li>
+200 OK
+
+<li>
+301 Moved Permanently
+
+<li>
+400 Bad Request
+
+<li>
+404 Not Found
+
+<li>
+505 HTTP Version Not Suppported
+
+</ul>
+
+<p>
+Persistent and Non-persistent HTTP
+</p>
+
+<p>
+Original HTTP (1.0) - non-persistent HTTP
+</p>
+<ul>
+<li>
+at most one object sent over TCP connection
+
+<ul>
+<li>
+connection then closed
+
+</ul>
+<li>
+downloading multiple objects required multiple connections
+
+<ul>
+<li>
+browsers often open parallel TCP connections to fetch referenced objects
+
+</ul>
+</ul>
+
+<p>
+Persistent HTTP (1.1) 
+</p>
+<ul>
+<li>
+multiple objects can be sent over single TCP connection between client, server
+
+<li>
+RFC 7230 family
+
+</ul>
+
+<p>
+We will look at RTT (round-trip time) to compare performance time for a small packet to travel from client to server and back
+</p>
+
+
+<p>
+RTT: time for a small packet to travel from client to server and back
+</p>
+
+<p>
+HTTP respone time:
+</p>
+<ul>
+<li>
+one RTT to initiate TCP connection
+
+<li>
+one RTT for HTTP request and a few butes of HTTP response to return
+
+<li>
+file transmission time
+
+<li>
+non persistent (total) HTTP response time = 2RTT + file transmission time 
+
+</ul>
+  
+  
+<ul>
+<li>
+Non-persistent HTTP response time:
+
+<ul>
+<li>
+for every object:
+
+<ul>
+<li>
+one RTT to initiate TCP connection
+
+<li>
+one RTT for HTTP request and first few bytes of HTTP response to return 
+
+<li>
+file transmission time
+
+</ul>
+</ul>
+<li>
+Persistent HTTP:
+
+<ul>
+<li>
+server leaves connection open aafter sending response
+
+<li>
+subsequent HTTP messages between same client/server sent over open connection
+
+<li>
+client sends requests as soon as it encounters a referenced object 
+
+<li>
+as little as one RTT for all the referenced objects
+
+</ul>
+</ul>
+
+<p>
+Evolution of HTTP
+</p>
+
+<ul>
+<li>
+HTTP 2.0 was published in 2015 and is adopted by the major browsers
+
+<ul>
+<li>
+An update on 1.1 that involves various performance upgrades 
+
+<li>
+RFC 7540 
+
+</ul>
+</ul>
+	  
+<ul>
+<li>
+Any modern web server should implement at least HTTP 1.1
+
+<li>
+The majority of web traaffic now is HTTP 1.1 or 2.0
+
+<li>
+Exceptions
+
+<ul>
+<li>
+Some low-tech clients (e.g. Wget) still use 1.0
+
+<li>
+Internet chatter indicates that bots often use 1.0
+
+</ul>
+</ul>
+
+<div id="Application Protocols-User-server state: Cookie"><h3 id="User-server state: Cookie" class="header"><a href="#Application Protocols-User-server state: Cookie">User-server state: Cookie</a></h3></div>
+<ul>
+<li>
+HTTP provides no provisions for maintaining state 
+
+<li>
+However, modern apps often need per-client state
+
+<ul>
+<li>
+user session state (Web e-mail, online banking)
+
+<li>
+authorization
+
+<li>
+etc.
+
+</ul>
+<li>
+This is done using <span id="Application Protocols-User-server state: Cookie-cookies"></span><strong id="cookies">cookies</strong> - formatted text maintained by the browser at the request of a web site
+
+<ul>
+<li>
+typically maintained in a file on client's computer 
+
+<li>
+may include infomration used by application identify a user, such as key to a database entry with account data
+
+</ul>
+<li>
+Cookies can be a source of privacy and security concerns
+
+</ul>
+
+<ul>
+<li>
+Cookie interaction
+
+<ul>
+<li>
+server sets a cookie by inclusing <span id="Application Protocols-User-server state: Cookie-Set-cookie header"></span><strong id="Set-cookie header">Set-cookie header</strong> in response to a request
+
+<li>
+when sending a request to a server for which it has a stored cookie, client includes <span id="Application Protocols-User-server state: Cookie-Cookie header"></span><strong id="Cookie header">Cookie header</strong> and the associated text
+
+</ul>
+</ul>
+
+<ul>
+<li>
+Cookies components:
+
+<ol>
+<li>
+Set-cookie header line of HTTP response message
+
+<li>
+Cookie header line in next HTTP request message
+
+<li>
+Cookie file kept on user's host, managed by user's browser 
+
+<li>
+back-end databaase at Web site
+
+</ol>
+</ul>
+
+<p>
+Example:
+</p>
+<ul>
+<li>
+Susan always access Internet from PC
+
+<li>
+visits specific e-commerce site for first time
+
+<li>
+when initial HTTP requests arrives at site, site creates:
+
+<ul>
+<li>
+unique ID
+
+<li>
+entry in backend database for ID
+
+</ul>
+</ul>
+
+<p>
+Web Cookies: keeping "state"
+</p>
+
+<ul>
+<li>
+What cookies can be used for:
+
+<ul>
+<li>
+authorization
+
+<li>
+shopping carts
+
+<li>
+recommendations
+
+<li>
+user session state (Web e-mail, onine banking)
+
+</ul>
+<li>
+How to keep state:
+
+<ul>
+<li>
+protocol endpoints: maintain state at sender/receiver over multiple transactions
+
+<li>
+cookies: http messages carry state
+
+</ul>
+</ul>
+
+<p>
+cookies and privacy:
+</p>
+<ul>
+<li>
+cookies permit sites to learn a lot about you
+
+<li>
+you may supply name and e-mail to sites
+
+</ul>
+
+<div id="Application Protocols-Web caches (proxy server)"><h3 id="Web caches (proxy server)" class="header"><a href="#Application Protocols-Web caches (proxy server)">Web caches (proxy server)</a></h3></div>
+
+<p>
+goal: satisfy client request without involving origin server
+</p>
+
+<ul>
+<li>
+Client may configure browser to use proxy:
+
+<ul>
+<li>
+all HTTP requests sent to proxy
+
+<li>
+if proxy has fresh copy of requested page, it returns stored copy
+
+<li>
+if not, it sends its owen GET request to retrieve page from "origin server", sends page to client anad stores a copy
+
+</ul>
+<li>
+What about pages that may change?
+
+<ul>
+<li>
+origin server can place limit on time object can be cached
+
+<li>
+proxy can issue conditional GET - "If-modified-since:" header
+
+</ul>
+</ul>
+
+<p>
+Cache acts as both client and server:
+</p>
+<ul>
+<li>
+server for original requesting client
+
+<li>
+client to origin server
+
+</ul>
+
+<ul>
+<li>
+typically cache is installed by ISP (university, company, residential ISP)
+
+<li>
+why web caching?
+
+<ul>
+<li>
+reduce response time for client request
+
+<li>
+reduce traffic on institution's access link
+
+<li>
+internet dense with caches: enables "poor" content providers to effectively deliver conent (so too does P2P file sharing)
+
+</ul>
+</ul>
+
+<div id="Application Protocols-Electronic mail"><h3 id="Electronic mail" class="header"><a href="#Application Protocols-Electronic mail">Electronic mail</a></h3></div>
+
+<p>
+Three major components: 
+</p>
+
+</body>
+</html>

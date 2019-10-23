@@ -235,14 +235,74 @@ ISO/OSI reference model
 - Internet stack "missing" these layers!
 
 
-| Internet Protocol Stack   |   |   |
-|---------------------------|---|---|
-| application               |   |   |
-|---------------------------|---|---|
-| transport                 |   |   |
-|---------------------------|---|---|
-| network                   |   |   |
-| ------------------------- |   |   |
-| link                      |   |   |
-| physical                  |   |   |
-|                           |   |   |
+| Internet Protocol Stack | ISO/OSI Reference Model |   |   |
+|                         |                         |   |   |
+|-------------------------|-------------------------|---|---|
+| application             | application             |   |   |
+| transport               | presentation            |   |   |
+| network                 | session                 |   |   |
+| link                    | transport               |   |   |
+| physical                | network                 |   |   |
+|                         | link                    |   |   |
+|                         | physical                |   |   |
+|                         |                         |   |   |
+|                         |                         |   |   |
+|                         |                         |   |   |
+|                         |                         |   |   |
+|                         |                         |   |   |
+|                         |                         |   |   |asdfasdfasa
+f
+asdfasdafas
+
+fix that garbage later
+
+Encapsulation: each layer does not need to understand the protocol of another layer
+
+=== Network Security === 
+
+- MafiaBoy
+	- Launch a DOS attack and bring down the websites of the biggest names in media and e-commerce, including CNN, Amazon and eBay
+	- Now help companies thwart cyber criminals
+- Malware attacks
+	- January 2017 - University of Alberta ~3000 users' credential infomration stolen: Installation of malware on 300 computers in 20 classrooms and labs by a student
+- Target data heist, 2013
+	- 40 million cards, $200 million loss, the largest hack in retail histroy
+- April 2017 Laurentian university: A computer science student hacked Laurentian University to prove it was vulnerable.
+	- 2,000 personal records including passwords, phone numbers, grades and wheter or not a student has been to see a counsellor.
+
+* Field of network security:
+	* how bad guys can attack computers networks
+	* how we can defend networks against attacks
+	* how to design architectures that arae immune to attacks
+* Internet not originally designed with (much) security in mind
+	* original vision: "a group of mutually trusting users attached to a transparent network":-)
+	* internet protocol designers playing "catch-up"
+	* security consderations in all layers!
+
+Bad guys: put malware into hosts via Interent
+* malware can get in host from:
+	* virus: self-replicating infection by receiving/executing object (e.g., e-mail attachment)
+	* worm: self-replicating infection by passively receiving object that gets itself executed
+* Spyware malware can record keystrokes, websites visited, upload info to collection site
+* infected host can be enrolled in botnet, used for spam, DDoS attacks
+
+Bad guys: attack server, network infrastructure 
+
+Denial of Service (DoS): attackers make resources (server, bandwidth) unavailable to legitimate traffice by overwhelming resource with bogus traffic
+
+1. select target
+2. break into hosts around the network (see botnet)
+3. send packets to target from compromised hosts
+
+Bad guys: can sniff packets
+
+packet "sniffing":
+- broadcast media (shared Ethernet, wireless)
+- promiscuous network interface reads/records all packets (e.g., including passwords!) passing by
+Sniffer: e.g., tcpdump, Wireshark
+
+Bad guys: can use fake addresses
+
+IP spoofing: send packet with faalse source address ... lots more on network security later
+
+

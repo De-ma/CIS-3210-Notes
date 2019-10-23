@@ -700,12 +700,17 @@ session: synchronization, checkpointing, recovery of data exchange
 Internet stack "missing" these layers!
 
 </ul>
+
+
 <table>
 <tr>
 <th>
 Internet Protocol Stack
 </th>
 <th>
+ISO/OSI Reference Model
+</th>
+<th>
 &nbsp;
 </th>
 <th>
@@ -714,40 +719,52 @@ Internet Protocol Stack
 </tr>
 <tr>
 <th>
+&nbsp;
+</th>
+<th>
+&nbsp;
+</th>
+<th>
+&nbsp;
+</th>
+<th>
+&nbsp;
+</th>
+</tr>
+<tr>
+<td>
 application
-</th>
-<th>
+</td>
+<td>
+application
+</td>
+<td>
 &nbsp;
-</th>
-<th>
+</td>
+<td>
 &nbsp;
-</th>
+</td>
 </tr>
 <tr>
-<th>
+<td>
 transport
-</th>
-<th>
+</td>
+<td>
+presentation
+</td>
+<td>
 &nbsp;
-</th>
-<th>
+</td>
+<td>
 &nbsp;
-</th>
+</td>
 </tr>
 <tr>
 <td>
 network
 </td>
 <td>
-&nbsp;
-</td>
-<td>
-&nbsp;
-</td>
-</tr>
-<tr>
-<td>
--------------------------
+session
 </td>
 <td>
 &nbsp;
@@ -761,6 +778,9 @@ network
 link
 </td>
 <td>
+transport
+</td>
+<td>
 &nbsp;
 </td>
 <td>
@@ -768,6 +788,37 @@ link
 </td>
 </tr>
 <tr>
+<td>
+physical
+</td>
+<td>
+network
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
+link
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+&nbsp;
+</td>
 <td>
 physical
 </td>
@@ -788,8 +839,221 @@ physical
 <td>
 &nbsp;
 </td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
 </tr>
 </table>
+<p>
+|                         |                         |   |   |asdfasdfasa
+f
+asdfasdafas
+</p>
+
+<p>
+fix that garbage later
+</p>
+
+<p>
+Encapsulation: each layer does not need to understand the protocol of another layer
+</p>
+
+<div id="Introduction to Networking-Structure of the Internet-Network Security"><h3 id="Network Security" class="header"><a href="#Introduction to Networking-Structure of the Internet-Network Security">Network Security</a></h3></div>
+
+<ul>
+<li>
+MafiaBoy
+
+<ul>
+<li>
+Launch a DOS attack and bring down the websites of the biggest names in media and e-commerce, including CNN, Amazon and eBay
+
+<li>
+Now help companies thwart cyber criminals
+
+</ul>
+<li>
+Malware attacks
+
+<ul>
+<li>
+January 2017 - University of Alberta ~3000 users' credential infomration stolen: Installation of malware on 300 computers in 20 classrooms and labs by a student
+
+</ul>
+<li>
+Target data heist, 2013
+
+<ul>
+<li>
+40 million cards, $200 million loss, the largest hack in retail histroy
+
+</ul>
+<li>
+April 2017 Laurentian university: A computer science student hacked Laurentian University to prove it was vulnerable.
+
+<ul>
+<li>
+2,000 personal records including passwords, phone numbers, grades and wheter or not a student has been to see a counsellor.
+
+</ul>
+</ul>
+
+<ul>
+<li>
+Field of network security:
+
+<ul>
+<li>
+how bad guys can attack computers networks
+
+<li>
+how we can defend networks against attacks
+
+<li>
+how to design architectures that arae immune to attacks
+
+</ul>
+<li>
+Internet not originally designed with (much) security in mind
+
+<ul>
+<li>
+original vision: "a group of mutually trusting users attached to a transparent network":-)
+
+<li>
+internet protocol designers playing "catch-up"
+
+<li>
+security consderations in all layers!
+
+</ul>
+</ul>
+
+<p>
+Bad guys: put malware into hosts via Interent
+</p>
+<ul>
+<li>
+malware can get in host from:
+
+<ul>
+<li>
+virus: self-replicating infection by receiving/executing object (e.g., e-mail attachment)
+
+<li>
+worm: self-replicating infection by passively receiving object that gets itself executed
+
+</ul>
+<li>
+Spyware malware can record keystrokes, websites visited, upload info to collection site
+
+<li>
+infected host can be enrolled in botnet, used for spam, DDoS attacks
+
+</ul>
+
+<p>
+Bad guys: attack server, network infrastructure 
+</p>
+
+<p>
+Denial of Service (DoS): attackers make resources (server, bandwidth) unavailable to legitimate traffice by overwhelming resource with bogus traffic
+</p>
+
+<ol>
+<li>
+select target
+
+<li>
+break into hosts around the network (see botnet)
+
+<li>
+send packets to target from compromised hosts
+
+</ol>
+
+<p>
+Bad guys: can sniff packets
+</p>
+
+<p>
+packet "sniffing":
+</p>
+<ul>
+<li>
+broadcast media (shared Ethernet, wireless)
+
+<li>
+promiscuous network interface reads/records all packets (e.g., including passwords!) passing by
+
+</ul>
+<p>
+Sniffer: e.g., tcpdump, Wireshark
+</p>
+
+<p>
+Bad guys: can use fake addresses
+</p>
+
+<p>
+IP spoofing: send packet with faalse source address ... lots more on network security later
+</p>
 
 </body>
 </html>

@@ -7,6 +7,1109 @@
 </head>
 <body>
 
+<div id="Network Applications: Sockets"><h1 id="Network Applications: Sockets" class="header"><a href="#Network Applications: Sockets">Network Applications: Sockets</a></h1></div>
+
+<p>
+Recall the IP stack is:
+</p>
+<ul>
+<li>
+application
+
+<li>
+transport
+
+<li>
+network
+
+<li>
+link
+
+<li>
+physical
+
+</ul>
+
+<p>
+Creating a network app
+</p>
+
+<ul>
+<li>
+write programs that:
+
+<ul>
+<li>
+run on (different) end systems
+
+<li>
+communicate over network
+
+<li>
+e.g., web server software communicates with browser software
+
+<li>
+programming-language independent, e.g., using C, Java, or Python
+
+</ul>
+<li>
+No need to write software for network-core devices
+
+<ul>
+<li>
+network-core devices do not run user applications
+
+<li>
+applications on end systems allows for raapid app development, propagation
+
+</ul>
+</ul>
+
+<p>
+Application architectures:
+</p>
+<ol>
+<li>
+client-server
+
+<li>
+peer-to-peer
+
+</ol>
+
+<div id="Network Applications: Sockets-Client-Server Architecture"><h3 id="Client-Server Architecture" class="header"><a href="#Network Applications: Sockets-Client-Server Architecture">Client-Server Architecture</a></h3></div>
+
+<p>
+server:
+</p>
+<ul>
+<li>
+always-on host
+
+<li>
+permanent IP address
+
+<li>
+data centers for scaling
+
+</ul>
+
+<p>
+clients:
+</p>
+<ul>
+<li>
+communicate with server
+
+<li>
+may be intermittently connected
+
+<li>
+may have dynamic IP addresses
+
+<li>
+do not communicate directly with each other
+
+</ul>
+
+<div id="Network Applications: Sockets-Peer-to-Peer Architecture"><h3 id="Peer-to-Peer Architecture" class="header"><a href="#Network Applications: Sockets-Peer-to-Peer Architecture">Peer-to-Peer Architecture</a></h3></div>
+
+<ul>
+<li>
+<span id="Network Applications: Sockets-Peer-to-Peer Architecture-no"></span><strong id="no">no</strong> always-on server
+
+<li>
+arbitrary end systems directly communicate
+
+<li>
+peers request serbice from other peers, provide service in return to toher peers
+
+<ul>
+<li>
+self scalability - new peers bring new service capacity, as well as new service demands
+
+</ul>
+<li>
+peers aare intermittently connected and change IP addresses
+
+<ul>
+<li>
+complex management
+
+</ul>
+</ul>
+
+<p>
+<span id="Network Applications: Sockets-Peer-to-Peer Architecture-What is the difference between Program and Process?"></span><strong id="What is the difference between Program and Process?">What is the difference between Program and Process?</strong>
+</p>
+<ul>
+<li>
+program is passive entity stored on disk (executable), process is active
+
+<li>
+program becomes processs when eecutable file loaded into memory
+
+<li>
+process is a program in execution!!
+
+</ul>
+
+<div id="Network Applications: Sockets-Processes communication"><h3 id="Processes communication" class="header"><a href="#Network Applications: Sockets-Processes communication">Processes communication</a></h3></div>
+
+<p>
+process: programa running within a host
+</p>
+
+<ul>
+<li>
+within same host, two processes communicate using <span id="Network Applications: Sockets-Processes communication-inter-process communication"></span><strong id="inter-process communication">inter-process communication</strong> (defined by OS)
+
+<li>
+processes in different hosts communicate by exchanging messages
+
+<li>
+aside: applicaations with P2P architectures have client processes &amp; server processes
+
+</ul>
+
+<p>
+client process: process that initiates communication
+server process: process that waits to be contacted
+</p>
+
+<div id="Network Applications: Sockets-Sockets"><h3 id="Sockets" class="header"><a href="#Network Applications: Sockets-Sockets">Sockets</a></h3></div>
+
+<ul>
+<li>
+process sends/receives messages to/from its socket
+
+<li>
+socket analogious to door:
+
+<ul>
+<li>
+sending process shoves message out door
+
+<li>
+sending process relies on transport infrastructure on other side of door to deliver message to socket at receiving process
+
+</ul>
+</ul>
+
+<p>
+Addressing processes:
+</p>
+<ul>
+<li>
+to receive messages, process must have identifier
+
+<li>
+host device has unique 32-bit IP address
+
+<li>
+Q: does IP address of host on which process runs suffice for identifying the process
+
+<li>
+A: no, many processes can be running on the same host
+
+<li>
+identifier inclues both IP address and port numbers associated with process on host
+
+</ul>
+
+<p>
+Example port numbers:
+</p>
+<ul>
+<li>
+HTTP server: 80
+
+<li>
+mail server: 25
+
+</ul>
+
+<div id="Network Applications: Sockets-App-layer protocol defines"><h3 id="App-layer protocol defines" class="header"><a href="#Network Applications: Sockets-App-layer protocol defines">App-layer protocol defines</a></h3></div>
+
+<ul>
+<li>
+types of messages exchanged:
+
+<ul>
+<li>
+request
+
+<li>
+response
+
+</ul>
+<li>
+message syntax:
+
+<ul>
+<li>
+what fields in messages and how fields are delineaated
+
+</ul>
+<li>
+message semantics:
+
+<ul>
+<li>
+meaning of information in fields
+
+</ul>
+<li>
+rules:
+
+<ul>
+<li>
+for when and how processes send &amp; response to messages
+
+</ul>
+<li>
+open protocols:
+
+<ul>
+<li>
+defined in RFCs
+
+<li>
+allows for interoperability
+
+<ul>
+<li>
+HTTP, SMTP
+
+</ul>
+</ul>
+<li>
+propritary protocols:
+
+<ul>
+<li>
+Skype
+
+</ul>
+</ul>
+
+<div id="Network Applications: Sockets-What transport service does an app need?"><h3 id="What transport service does an app need?" class="header"><a href="#Network Applications: Sockets-What transport service does an app need?">What transport service does an app need?</a></h3></div>
+
+<p>
+data integrity:
+</p>
+<ul>
+<li>
+some apps (e.g., file transfer, web transactions) require 100% reliable data transfer
+
+<li>
+other apps (e.g., audio) can tolerate some loss
+
+</ul>
+
+<p>
+timing:
+</p>
+<ul>
+<li>
+some apps (e.g., Internet telephony, interactive games) require low delay to be "effective"
+
+</ul>
+
+<p>
+throughput:
+</p>
+<ul>
+<li>
+some apps (e.g., multimedia) require minimum amount of throughput to be "effective"
+
+<li>
+other apps ("elastic apps") make use of whatever throughput they get
+
+</ul>
+
+<p>
+security:
+</p>
+<ul>
+<li>
+encryption, data integrity, ... 
+
+</ul>
+  
+<div id="Network Applications: Sockets-Internet transport protocols services"><h3 id="Internet transport protocols services" class="header"><a href="#Network Applications: Sockets-Internet transport protocols services">Internet transport protocols services</a></h3></div>
+
+<p>
+TCP service:
+</p>
+<ul>
+<li>
+reliable transport between sending and receiving process
+
+<li>
+flow control: sender won't overwhelm receiver
+
+<li>
+congestion control: throttle sender when network overloaded
+
+<li>
+does not provide: timing, minumum throughput guarantee, security
+
+<li>
+connection-oriented: setup required between client and server processes
+
+</ul>
+
+<p>
+UDP service:
+</p>
+<ul>
+<li>
+unreliable data transfer between sending and receiving
+
+<li>
+does not provide: reliability, flow control, congestion control, timing, throughput guarantee, security or connection setup.
+
+</ul>
+
+<p>
+Q. Why bother? why is there a UDP?
+</p>
+<ul>
+<li>
+UDP has less latenchy, cost of estabilishing a TCP conneciton is seomtimes excessive
+
+<li>
+UDP is simpler so embedded systems
+
+<li>
+retranmission mechanism of TCP can be nuisance for real time systems ex video. video will freeze while TCP is retransmitting.
+
+</ul>
+
+<div id="Network Applications: Sockets-Securing TCP"><h3 id="Securing TCP" class="header"><a href="#Network Applications: Sockets-Securing TCP">Securing TCP</a></h3></div>
+
+<p>
+TCP &amp; UDP
+</p>
+<ul>
+<li>
+no encryption
+
+<li>
+cleartext passwords sent into socket traverse Internet in clear text
+
+</ul>
+
+<p>
+SSL (Secure Sockets Layer)
+</p>
+<ul>
+<li>
+provides encrypted TCP connection
+
+<li>
+data integrity
+
+<li>
+end-point authentication
+
+</ul>
+
+<p>
+SSL is at app layer 
+</p>
+<ul>
+<li>
+apps use SSL libraries, that "talk" to TCP
+
+</ul>
+
+<p>
+SSL socket API
+</p>
+<ul>
+<li>
+cleartext passwords sent into socket traverse internet encrypted
+
+</ul>
+
+<div id="Network Applications: Sockets-Socket Programming"><h3 id="Socket Programming" class="header"><a href="#Network Applications: Sockets-Socket Programming">Socket Programming</a></h3></div>
+
+<p>
+goal: leaarn how to build client/server applications that communicate using sockets
+socket: door between application process and end-end-transport protocol
+</p>
+
+<p>
+Delivering the data: Division of Labor
+</p>
+
+<ul>
+<li>
+Network:
+
+<ul>
+<li>
+Deliver data packet to the destination host
+
+<li>
+Bassed on the destination IP address
+
+<li>
+TCP/IP network standards
+
+</ul>
+<li>
+Operating System:
+
+<ul>
+<li>
+deliver data to the destination socket
+
+<li>
+based on the destination port number (e.g. 80)
+
+</ul>
+<li>
+Application:
+
+<ul>
+<li>
+read data from and write data to the socket
+
+<li>
+interpret the data (e.g., render a Web page)
+
+<li>
+Defined by applicaation protocols (or RFCs)
+
+</ul>
+</ul>
+
+<p>
+Socket: End point of Communication
+</p>
+
+<ul>
+<li>
+Sending message from one process to another
+
+<ul>
+<li>
+Message must traverse the underlying network
+
+</ul>
+<li>
+Proess sends and receives through a "socket"
+
+<ul>
+<li>
+In essence, the doorway leading in/out of the house
+
+</ul>
+<li>
+Socket as an Application Programming Interfact
+
+<ul>
+<li>
+Supports the creation of network applications
+
+</ul>
+</ul>
+
+<p>
+Identifying the Receiving Process
+</p>
+
+<ul>
+<li>
+Sending process must identify the receiver
+
+<ul>
+<li>
+The receiving end host machine
+
+<li>
+The specific socket in a process on that machine 
+
+</ul>
+<li>
+Receving host
+
+<ul>
+<li>
+Destination address that uniquely identifies the host
+
+<li>
+An IP address is a 32-bit quantity
+
+</ul>
+<li>
+Receiving socket
+
+<ul>
+<li>
+Host may be running many different processes
+
+<li>
+Destination port that uniquely identifies the socket
+
+<li>
+A port number is a 16-bit quantity
+
+</ul>
+</ul>
+
+<p>
+Knowing what port number ot use
+</p>
+
+<ul>
+<li>
+popular applications have well-known ports:
+
+<ul>
+<li>
+E.g. port 80 for the Web and 25 for e-mail
+
+<li>
+See <a href="http://www.iana.org/assignments/port-numbers">http://www.iana.org/assignments/port-numbers</a>
+
+</ul>
+<li>
+Well-known vs ephemeral ports
+
+<ul>
+<li>
+Server has a well-known port (e.g., port 80)
+
+<li>
+between 0 and 1023 require root to use
+
+<li>
+client picks an unused emphemeral port (aka temporary)
+
+<li>
+between 1024 and 65535
+
+</ul>
+<li>
+Port numbers are unique per host
+
+<ul>
+<li>
+Port numbers uniquely identifies the socket
+
+<ul>
+<li>
+cannot use same port number twice with same address
+
+<li>
+otherwise, the OS can't demultiplex packets correctly
+
+</ul>
+<li>
+operating system enforces uniqueness
+
+<ul>
+<li>
+OS keeps track of which port numbers are in use
+
+<li>
+doesnt let the second program use the port number
+
+</ul>
+<li>
+Example: two web server running on a machine
+
+<ul>
+<li>
+they cannot both use port 80, the standard port # 
+
+<li>
+so the second one might use a non-standard port # like 8080
+
+</ul>
+</ul>
+</ul>
+
+<p>
+SOCket Programming in UNIX - UNIX socket API
+</p>
+
+<ul>
+<li>
+Socket interface 
+
+<ul>
+<li>
+originally provided in Berkeley UNIX
+
+<li>
+Later adopted by all popular operating systems
+
+<li>
+Simplifies porting application to different OSes
+
+</ul>
+<li>
+In UNIX, everything is like a file
+
+<ul>
+<li>
+All input is like reading a file
+
+<li>
+All output is like writing a file
+
+<li>
+File is represented by an integer file descriptor
+
+</ul>
+<li>
+API implemented as system calls
+
+<ul>
+<li>
+E.g., connect, read, write, close, ...
+
+</ul>
+</ul>
+
+<p>
+System Calls vs Library Calls 
+</p>
+
+<ul>
+<li>
+Applications communicate with the kernet via system calls. An application typically calls function in a library (e.g. C library) which rely on the system call interface to instruct the kernet to carry out tasks on the application's behalf.
+
+<li>
+Many library calls (functions) are built on top of system calls:
+
+<ul>
+<li>
+some library calls provide many features not found in the system call. therefore, calling into the kernel is just one step in an otherwise large function. For example, the printf() function provides formatting and buffering of the daata; only one step in its work is invoking write() to write the data to the console.
+
+<li>
+Some libraary calls have aa one-to-one relationship with the kernel. For example, the open() library function does little except call the open() system call.
+
+<li>
+other C library functions, such as strcpy(), make no direct use of the kernel at all.
+
+</ul>
+</ul>
+
+<p>
+Typical Client Program
+</p>
+
+<ul>
+<li>
+Prepare to communicate
+
+<ul>
+<li>
+Create a socket 
+
+<li>
+Determine server address and port number
+
+<li>
+Initiate the connection to the server
+
+</ul>
+<li>
+Exchange data with the server
+
+<ul>
+<li>
+Write data to the socket
+
+<li>
+Read dataa from the socket
+
+<li>
+Do stuff with the data (e.g., render a Web page)
+
+</ul>
+<li>
+Close the socket
+
+</ul>
+
+<p>
+Servers differ from clients 
+</p>
+
+<ul>
+<li>
+Passive open
+
+<ul>
+<li>
+prepare to accept connections
+
+<li>
+... but don't actually establish
+
+<li>
+... until hearing from a client
+
+</ul>
+<li>
+hearing from multiple clients
+
+<ul>
+<li>
+Allowing a backlog of waaiting clients
+
+<li>
+... in case several try to communicate at once
+
+</ul>
+<li>
+Create a socket for each client
+
+<ul>
+<li>
+uopn accepting a new client 
+
+<li>
+... create a new socket for the communication
+
+</ul>
+</ul>
+
+<p>
+Typical Server Program
+</p>
+
+<ul>
+<li>
+Prepaare to communicate
+
+<ul>
+<li>
+Create a socket
+
+<li>
+Associate local address and port with the socket
+
+</ul>
+<li>
+Wait to hear from a client (passive open)
+
+<ul>
+<li>
+Indicate how many clients-in-waiting to permit
+
+<li>
+Accept an incoming connection from a client
+
+</ul>
+<li>
+Exchange data with the client over new socket
+
+<ul>
+<li>
+receive data from the socket
+
+<li>
+do stuff to handle the request (e.g., get a file)
+
+<li>
+send data to the socket
+
+<li>
+close the socket
+
+</ul>
+<li>
+Repeat with the next connection request
+
+</ul>
+
+
+<table>
+<tr>
+<th>
+Server
+</th>
+<th>
+Client
+</th>
+<th>
+&nbsp;
+</th>
+<th>
+&nbsp;
+</th>
+</tr>
+<tr>
+<td>
+socket()
+</td>
+<td>
+socket()
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+bind()
+</td>
+<td>
+connect()
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+listen()
+</td>
+<td>
+write()
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+accept()
+</td>
+<td>
+read()
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+read()
+</td>
+<td>
+close()
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+<tr>
+<td>
+close()
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+<td>
+&nbsp;
+</td>
+</tr>
+</table>
+<p>
+|          |           |   |   | asdf
+</p>
+
+<p>
+Server: One Request at a Time?
+</p>
+
+<ul>
+<li>
+Serializing requests is inefficient
+
+<ul>
+<li>
+Server can process just one request at a time
+
+<li>
+All other clients must wait until previous one is done
+
+<li>
+What makes this inefficient?
+
+</ul>
+<li>
+May need to time share the server machine
+
+<ul>
+<li>
+Alternaate between servicing different requests
+
+<li>
+ Do a little work on one request, then switch when you are waiting for some other resource (e.g., reading file from disk)
+
+<li>
+"Nonblocling I/O"
+
+<li>
+Or, use a different process/thread for each request 
+
+<ul>
+<li>
+Allow OS to share the CPU(s) across processes
+
+</ul>
+<li>
+OR, some hybrid of these two approaches
+
+</ul>
+</ul>
+
+<p>
+Client and Server: Cleaning house
+</p>
+
+<ul>
+<li>
+Once the connection is open:
+
+<ul>
+<li>
+both sides and read aand write
+
+<li>
+two unindirectional streams of dataa
+
+<li>
+In practice, client writes first, and server reads
+
+<li>
+... then server writes; and client reads, and so on
+
+</ul>
+<li>
+<span id="Network Applications: Sockets-Socket Programming-CLosing down the connection"></span><strong id="CLosing down the connection">CLosing down the connection</strong>
+
+<ul>
+<li>
+Either side can close the connection
+
+<li>
+... using the close() system call
+
+</ul>
+<li>
+What about the data still "in flight"
+
+<ul>
+<li>
+Data in flight still reaches the other end
+
+<li>
+So, server can close() before client finishes reading
+
+</ul>
+</ul>
+
+<p>
+One Annoying Thing: Byte Order
+</p>
+
+<ul>
+<li>
+Hosts differ in how they store data, making it more difficult to write portable code!
+
+</ul>
+ 
+<div id="Network Applications: Sockets-Endiannes"><h3 id="Endiannes" class="header"><a href="#Network Applications: Sockets-Endiannes">Endiannes</a></h3></div>
+
+<p>
+In computing, endiannes is the ordering of indiviudally addressable sub-unit (for example, A byte is the smallest amount of space that is typically allocated to data.) within a longer data word stored
+</p>
+
+<ul>
+<li>
+Little endian ("little end comes first"): Intel x86's
+
+<ul>
+<li>
+Low-order byte stored at the lowest memory location
+
+<li>
+Byte0, byte1, byte2, byte3
+
+</ul>
+<li>
+Big endian ("big end comes first"): Sun SPARC and Motorola PowerPC systems
+
+<ul>
+<li>
+High-order byte stored at lowest memory location
+
+<li>
+Byte3, byte2, byte1, byte0
+
+</ul>
+</ul>
+
+<p>
+IP is Big Endian 
+</p>
+
+<ul>
+<li>
+But, what byte order is used "on the wire"
+
+<ul>
+<li>
+That is, what do the network protocol use?
+
+</ul>
+<li>
+The internet protocols picked one convention
+
+<ul>
+<li>
+IP is big endian (aka "network byte order")
+
+</ul>
+<li>
+<span id="Network Applications: Sockets-Endiannes-Writing portaable code require conversion"></span><strong id="Writing portaable code require conversion">Writing portaable code require conversion</strong>
+
+<ul>
+<li>
+use <span id="Network Applications: Sockets-Endiannes-htons()"></span><strong id="htons()">htons()</strong> and <span id="Network Applications: Sockets-Endiannes-htonl()"></span><strong id="htonl()">htonl()</strong> to convert to network byte order
+
+<li>
+use <span id="Network Applications: Sockets-Endiannes-ntohs()"></span><strong id="ntohs()">ntohs()</strong> and ntohl()* to convert to host order
+
+</ul>
+<li>
+Hides detail of what kind of machine you're on 
+
+<ul>
+<li>
+Use the system calls when sending/receiving data structures longer than one byte
+
+</ul>
+</ul>
 
 </body>
 </html>

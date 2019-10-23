@@ -1,0 +1,189 @@
+= Application Protocols = 
+
+=== Tools for the web === 
+
+- HTML - the markup language for encoding text and images
+  - Hypertext Markup Language
+- Web page
+  - A web page consists of objects: HTML file, as well as various resources: images, audio, video, JavaScript code, etc
+    - if a Web page contains HTML text and give JPEG images, then the Web page has six objects: the base HTML file plus the five images
+- Typical Web communications over the network consists of clients requesting resources from servers, and occasionally sending some data back
+- HTTP - the protocol for exchanging data between content providers (servers) and content consumers (browsers on clients)
+  - hypertext transfer protocol
+
+Web & HTTP
+
+- Each object is addressable by a URL (Uniform Resource Locator), e.g.,
+ 
+ 
+ socs.uoguelph.ca/~xlin08/img/xlin.jpg
+ 
+ host name         path name
+ 
+To display a page:
+- Browser (HTTP client) requests page from a web server (HTTP server)
+- parses page and finds URLs to referenced objects
+- requests objects
+- displays web page text and objects in browser window
+
+=== HTTP overview === 
+
+HTTP: hypertext transfer protocol
+- an application layer protocol 
+- client/server model
+	- client: browser that requests, receives, (using HTTP protocol) and "displays" Web objects, e.g., Google Chrome, Internet Explorer (IE), Firefox, Safari.
+	- server: Web server sends (using HTTP protocol) objects, e.g., Apache, Microsoft's Internet Information Server (IIS).
+
+HTTP communication use TCP:
+- client initiates TCP connection (creates socket) to server, port 80
+- server accepts TCP connection from client
+	- starts a sepaarate thread to process client requests, or allocates one from a thread pool
+- HTTP messages (application-layer protocol messages) exchanged between browser (HTTP client) and Web server (HTTP server)
+- TCP connection close
+
+HTTP - Design Requirements 
+
+- A protocol defines the format and the order of messages exchanged between two or more communicating entites, as well as the actions taken on the transmission and/or receipt of a message or another event. 
+  
+ - So we need:
+	 - format for messages from client to server, e.g. ask server for stuff or send the server stuff
+	 - format for messages from server to client, e.g. acknowledge request and send data to client, indicate inability to process request.
+
+- HTTP is "stateless" - server maintains no information about pas client requests
+- Two htypes of HTTP messages: request, response
+- basic requests: GET, HEAD, POST, PUT, DELETE
+	- GET: requests a page
+	- HEAD: similar to GET but noobject returned, just a header
+	- POST: request a page based on filling out a form
+	- PUT: upload an object to a server
+	- DELETE: delete an object from a server
+
+HTTP request mesaage exmaple
+
+- HTTP request message:
+	- ASCII (human-readable format)
+
+HTTP response status codes
+
+- status code appears in 1st line in server-to-client response message.
+- 200 OK
+- 301 Moved Permanently
+- 400 Bad Request
+- 404 Not Found
+- 505 HTTP Version Not Suppported
+
+Persistent and Non-persistent HTTP
+
+Original HTTP (1.0) - non-persistent HTTP
+- at most one object sent over TCP connection
+  - connection then closed
+- downloading multiple objects required multiple connections
+  - browsers often open parallel TCP connections to fetch referenced objects
+
+Persistent HTTP (1.1) 
+- multiple objects can be sent over single TCP connection between client, server
+- RFC 7230 family
+
+We will look at RTT (round-trip time) to compare performance time for a small packet to travel from client to server and back
+
+
+RTT: time for a small packet to travel from client to server and back
+
+HTTP respone time:
+- one RTT to initiate TCP connection
+- one RTT for HTTP request and a few butes of HTTP response to return
+- file transmission time
+- non persistent (total) HTTP response time = 2RTT + file transmission time 
+  
+  
+- Non-persistent HTTP response time:
+	- for every object:
+		- one RTT to initiate TCP connection
+		- one RTT for HTTP request and first few bytes of HTTP response to return 
+		- file transmission time
+- Persistent HTTP:
+	- server leaves connection open aafter sending response
+	- subsequent HTTP messages between same client/server sent over open connection
+	- client sends requests as soon as it encounters a referenced object 
+	- as little as one RTT for all the referenced objects
+
+Evolution of HTTP
+
+- HTTP 2.0 was published in 2015 and is adopted by the major browsers
+	- An update on 1.1 that involves various performance upgrades 
+	- RFC 7540 
+	  
+- Any modern web server should implement at least HTTP 1.1
+- The majority of web traaffic now is HTTP 1.1 or 2.0
+- Exceptions
+	- Some low-tech clients (e.g. Wget) still use 1.0
+	- Internet chatter indicates that bots often use 1.0
+
+=== User-server state: Cookie === 
+- HTTP provides no provisions for maintaining state 
+- However, modern apps often need per-client state
+	- user session state (Web e-mail, online banking)
+	- authorization
+	- etc.
+- This is done using *cookies* - formatted text maintained by the browser at the request of a web site
+	- typically maintained in a file on client's computer 
+	- may include infomration used by application identify a user, such as key to a database entry with account data
+- Cookies can be a source of privacy and security concerns
+
+- Cookie interaction
+	- server sets a cookie by inclusing *Set-cookie header* in response to a request
+	- when sending a request to a server for which it has a stored cookie, client includes *Cookie header* and the associated text
+
+- Cookies components:
+	1. Set-cookie header line of HTTP response message
+	2. Cookie header line in next HTTP request message
+	3. Cookie file kept on user's host, managed by user's browser 
+	4. back-end databaase at Web site
+
+Example:
+- Susan always access Internet from PC
+- visits specific e-commerce site for first time
+- when initial HTTP requests arrives at site, site creates:
+	- unique ID
+	- entry in backend database for ID
+
+Web Cookies: keeping "state"
+
+- What cookies can be used for:
+	- authorization
+	- shopping carts
+	- recommendations
+	- user session state (Web e-mail, onine banking)
+- How to keep state:
+	- protocol endpoints: maintain state at sender/receiver over multiple transactions
+	- cookies: http messages carry state
+
+cookies and privacy:
+- cookies permit sites to learn a lot about you
+- you may supply name and e-mail to sites
+
+=== Web caches (proxy server) === 
+
+goal: satisfy client request without involving origin server
+
+- Client may configure browser to use proxy:
+	- all HTTP requests sent to proxy
+	- if proxy has fresh copy of requested page, it returns stored copy
+	- if not, it sends its owen GET request to retrieve page from "origin server", sends page to client anad stores a copy
+- What about pages that may change?
+	- origin server can place limit on time object can be cached
+	- proxy can issue conditional GET - "If-modified-since:" header
+
+Cache acts as both client and server:
+- server for original requesting client
+- client to origin server
+
+- typically cache is installed by ISP (university, company, residential ISP)
+- why web caching?
+	- reduce response time for client request
+	- reduce traffic on institution's access link
+	- internet dense with caches: enables "poor" content providers to effectively deliver conent (so too does P2P file sharing)
+
+=== Electronic mail === 
+
+Three major components: 
