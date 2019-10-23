@@ -572,8 +572,713 @@ internet dense with caches: enables "poor" content providers to effectively deli
 <div id="Application Protocols-Electronic mail"><h3 id="Electronic mail" class="header"><a href="#Application Protocols-Electronic mail">Electronic mail</a></h3></div>
 
 <p>
-Three major components: 
+Three major components:
 </p>
+<ol>
+<li>
+user agents
+
+<li>
+mail servers
+
+<li>
+simple mail transfer protocol: SMTP
+
+</ol>
+
+<p>
+User Agent
+</p>
+<ul>
+<li>
+aka "mail reader"
+
+<li>
+composing, editing, reading mail messaaages
+
+<li>
+e.g. Outlook, Thunderbird
+
+<li>
+outgoing, incoming messages stored on server
+
+</ul>
+
+<p>
+Mail servers:
+</p>
+<ul>
+<li>
+mailbox contains incoming messages for user
+
+<li>
+message queue of outgoing (to be sent) mail messages
+
+<li>
+SMTP protocol between mail servers to send email messages:
+
+<ul>
+<li>
+client: sending mail server
+
+<li>
+"server": receiving mail server
+
+</ul>
+</ul>
+
+<p>
+Electronic Mail: SMTP [RFC 2821]
+</p>
+<ul>
+<li>
+uses TCP to reliably traansfer email message from client to server, port 25
+
+<li>
+direct transfer: sending server to reeceiving server
+
+<li>
+three phases of tranasfer
+
+<ul>
+<li>
+handshaking (Greeting)
+
+<li>
+transfer of messages
+
+<li>
+closure
+
+</ul>
+<li>
+command/response interaction (like HTTP)
+
+<ul>
+<li>
+commands: ASCII text
+
+<li>
+response: status code and phrase
+
+</ul>
+<li>
+messages must be in 7-bit ASCII
+
+</ul>
+
+<p>
+Scenario: Alice sends message to Bob
+</p>
+
+<ol>
+<li>
+alice uses UA to compose message "to" bob@someschool.edu
+
+<li>
+Alice's UA sends message to her mail server; message placed in message queue
+
+<li>
+client side of SMTP opens TCP connection with Bob's mail server
+
+<li>
+SMTP client sends Alice's message over the TCP connection
+
+<li>
+Bob's mail server places the message in Bob's mailbox 
+
+<li>
+Bob invokes his user agent to read message
+
+</ol>
+
+<p>
+SMTP: final words
+</p>
+
+<ul>
+<li>
+SMTP uses persistent connections
+
+<li>
+SMTP requires message (header &amp; body) to be in 7-bit ASCII
+
+<li>
+SMTP server uses CRLF.CRLF determine end of message
+
+</ul>
+
+<p>
+comparison with HTTP:
+</p>
+<ul>
+<li>
+HTTP: pull
+
+<li>
+SMTP: push
+
+<li>
+both have ASCII command/response interaction, status codes
+
+<li>
+HTTP: each object encapsulated in its own response message
+
+<li>
+SMTP: multiple objects sent in multipart message
+
+</ul>
+
+<p>
+Mail access protocols
+</p>
+
+<ul>
+<li>
+SMTP: delivery/storage to receiver's server
+
+<li>
+mail access protocol: retrieval from server
+
+<ul>
+<li>
+POP: post office protocol [RFC 1939]: authorization, download, using port 110 (non-encrypted port) by default or port 995 (using POP3 securely)
+
+<li>
+IMAP: Internet Mail Access Protocol [RFC 1730]: more features, includnig manipulation of stored messages on server , using port 13 (non-encrypted port) by default or port 993 (using POP3 securely)
+
+<li>
+HTTP: gmail, hotmail
+
+</ul>
+</ul>
+
+<div id="Application Protocols-POP3 protocol"><h3 id="POP3 protocol" class="header"><a href="#Application Protocols-POP3 protocol">POP3 protocol</a></h3></div>
+
+<p>
+Authorization phase
+</p>
+<ul>
+<li>
+client commands:
+
+<ul>
+<li>
+user: declare username
+
+<li>
+pass: password
+
+</ul>
+<li>
+server responses:
+
+<ul>
+<li>
++OK
+
+<li>
+-ERR
+
+</ul>
+<li>
+Transaction phase, client:
+
+<ul>
+<li>
+list: list message numbers
+
+<li>
+retr: retrieve messge by number
+
+<li>
+dele: delete
+
+<li>
+quit
+
+</ul>
+</ul>
+
+<p>
+"plaintext" password over the network
+</p>
+
+<div id="Application Protocols-Domain Name System (DNS)"><h3 id="Domain Name System (DNS)" class="header"><a href="#Application Protocols-Domain Name System (DNS)">Domain Name System (DNS)</a></h3></div>
+
+<p>
+People: many unique identifiers:
+</p>
+<ul>
+<li>
+SIN, name, driver's license #, passport #
+
+</ul>
+<p>
+Internet hosts, routers:
+</p>
+<ul>
+<li>
+IP address (32 bit) - used for addressing datagrams
+
+<li>
+"name", e.g., www.uoguelph.ca - used by humans
+
+</ul>
+<p>
+We need to map between IP addresses and name, and vice verse
+</p>
+
+<p>
+Solution: Domain Name System (DNS)
+</p>
+
+<p>
+DNS: Components
+</p>
+
+<ul>
+<li>
+Generaal service: looking up an IP address using a humanly readable name (and vice versa)
+
+<ul>
+<li>
+Address/name translation
+
+</ul>
+<li>
+Components:
+
+<ul>
+<li>
+A naming system that reflects
+
+<ul>
+<li>
+some properties of the host
+
+<li>
+network hierarchy (potentially)
+
+</ul>
+<li>
+Distributed database implemented in hierarchy of many name servsers
+
+<ul>
+<li>
+Need to design the database
+
+</ul>
+<li>
+Protocol: hosts, name servers communicate to resolve names - texr message exchange
+
+<ul>
+<li>
+need a format for requests and responses
+
+<li>
+transport-layer protocol: DNS uses UDP and TCP
+
+<li>
+Usually port 53
+
+</ul>
+</ul>
+</ul>
+
+<p>
+DNS: services, structure
+</p>
+
+<p>
+DNS services
+</p>
+<ul>
+<li>
+hostname to IP address translation
+
+<li>
+host aliasing
+
+<ul>
+<li>
+canonical, alias names
+
+</ul>
+<li>
+mail server aliasing
+
+<li>
+load distribution
+
+<ul>
+<li>
+replicated
+
+</ul>
+<li>
+Web servers: 
+
+<ul>
+<li>
+many IP addresses correspond to one name
+
+</ul>
+</ul>
+
+<p>
+Why not centralize DNS?
+</p>
+<ul>
+<li>
+single point of failure
+
+<li>
+traffic volume
+
+<li>
+distant centralized database
+
+<li>
+maintenance
+
+</ul>
+
+<p>
+A: doesn't scale!
+</p>
+
+<p>
+DNS: a distributed, hierarchical database
+</p>
+
+<p>
+client wants IP for amazon.com; 1st approximation:
+</p>
+<ul>
+<li>
+client queries root server to find com DNS server
+
+<li>
+client queries .com DNS server to get amazon.comDNS server
+
+<li>
+client queries amazon.com DNS server to get IP address for www.amaazon.com
+
+</ul>
+
+<p>
+DNS: root name servers
+</p>
+
+<ul>
+<li>
+contacted by local name server that can not resolve name
+
+<li>
+root name server:
+
+<ul>
+<li>
+contacts authoritative name server if name mapping not known 
+
+<li>
+gets mapping
+
+<li>
+returns mapping to local name server
+
+</ul>
+</ul>
+
+<p>
+TLD, authoritative servers
+</p>
+
+<p>
+Top-level domain (TLD) servers:
+</p>
+<ul>
+<li>
+responsible fro com, org, net, edu, aero, jobs, museums, and all top-level country domains, e.g.: uk, fra, ca, jp
+
+<li>
+network solutions maintains servers for .com TLD
+
+<li>
+Educause for .edu TLD
+
+</ul>
+
+<p>
+Authoritative DNS servers:
+</p>
+<ul>
+<li>
+Organization's own DNS server(s), providing authoritative hostname to IP mapping for organization's named hosts
+
+<li>
+can be maintained by organization or service provider
+
+</ul>
+
+<p>
+Local DNS name server
+</p>
+
+<ul>
+<li>
+does not strictly belong to hierarchy
+
+<li>
+each ISP has one
+
+<ul>
+<li>
+also called "default name server"
+
+</ul>
+<li>
+when host makes DNS query, query is sent to its local DNS server
+
+<ul>
+<li>
+has local cache of recent naame-to-address translation pairs (but may be out of date!)
+
+<li>
+acts as proxy, forwards query into hierarchy
+
+</ul>
+</ul>
+
+<p>
+DNS name resolution example 
+</p>
+
+<ul>
+<li>
+host at cis.poly.edu wants IP address for gaia.cs.umass.edu
+
+</ul>
+
+<p>
+iterated query:
+</p>
+<ul>
+<li>
+contacted server replies with name of server to contact
+
+<li>
+"I don't know this but ask this server"
+
+</ul>
+
+<p>
+recursive query:
+</p>
+<ul>
+<li>
+puts burden of name resolution on contacted name server
+
+<li>
+heavy load at upper levels of hierarchy?
+
+</ul>
+
+<p>
+DNS: caching, updating records
+</p>
+<ul>
+<li>
+once (any) name server learns mapping, it caches mapping
+
+<ul>
+<li>
+cache entries timeout (disappear) after some time (TTL) 
+
+<ul>
+<li>
+Time-to-live, or TTL
+
+</ul>
+<li>
+TLD servers typicaly cached in local name servers
+
+<ul>
+<li>
+thus root name servers are not often visited
+
+</ul>
+</ul>
+<li>
+Cached entries may be out-of-daate (best effort name-to-address translaation!)
+
+<ul>
+<li>
+if name host changes IP address, may not be known Internet-wide until all TTLs expire
+
+</ul>
+<li>
+update/notify mechanisms proposed IETF standard 
+
+<ul>
+<li>
+RFC 2136
+
+</ul>
+</ul>
+
+<p>
+DNS records
+</p>
+
+<p>
+DNS: distributed database storing resource records (RR)
+</p>
+
+<p>
+RR format: (name, value, type, ttl)
+</p>
+
+<p>
+type=A
+</p>
+<ul>
+<li>
+name is hostname
+
+<li>
+value is IP address
+
+</ul>
+
+<p>
+type=NS
+</p>
+<ul>
+<li>
+name is domain (e.g., foo.com)
+
+<li>
+value is hostname of authoritative name server for this domain
+
+</ul>
+
+<p>
+type=CNAME
+</p>
+<ul>
+<li>
+name is alias name for some "canonical" (the real) name
+
+</ul>
+<p>
+www.ibm.com is really servereast.backup2.ibm.com
+</p>
+<ul>
+<li>
+value is canonical name
+
+</ul>
+
+<p>
+type=MX
+</p>
+<ul>
+<li>
+value is name of mailserver associated with name
+
+</ul>
+
+<p>
+DNS record: Address
+</p>
+
+<ul>
+<li>
+name value A ttl
+
+<li>
+type=A (aaddress)
+
+<ul>
+<li>
+name is hostname
+
+<li>
+value is IP address
+
+</ul>
+</ul>
+
+<p>
+DNS protocol, messages
+</p>
+
+<ul>
+<li>
+query and reply messages, both with same message format
+
+</ul>
+
+<p>
+message header:
+</p>
+<ul>
+<li>
+identification: 16 bit # for query, reply to query uses same #
+
+<li>
+flags:
+
+<ul>
+<li>
+query or reply
+
+<li>
+recursion desfired 
+	  recursion available
+	  reply is authoritative
+
+</ul>
+</ul>
+
+<p>
+Inserting records into DNS
+</p>
+<ul>
+<li>
+Example: new startup "Network Utopia"
+
+<li>
+Register name networkuptopia.com at DNS registrar (e.g., Network Solutions)
+
+<ul>
+<li>
+provide names, IP addresses of authoritative name server (primary and secondary)
+
+<li>
+registrar inserts two RR into .com TLD server:
+
+</ul>
+</ul>
+
+<ul>
+<li>
+create authoritataive server, containing
+
+<ul>
+<li>
+type A record for your web server
+
+<li>
+www.networkuptopia.com;
+
+<li>
+type MX resource record for networkutopia.com
+
+</ul>
+</ul>
 
 </body>
 </html>

@@ -186,4 +186,236 @@ Cache acts as both client and server:
 
 === Electronic mail === 
 
-Three major components: 
+Three major components:
+1. user agents
+2. mail servers
+3. simple mail transfer protocol: SMTP
+
+User Agent
+- aka "mail reader"
+- composing, editing, reading mail messaaages
+- e.g. Outlook, Thunderbird
+- outgoing, incoming messages stored on server
+
+Mail servers:
+- mailbox contains incoming messages for user
+- message queue of outgoing (to be sent) mail messages
+- SMTP protocol between mail servers to send email messages:
+	- client: sending mail server
+	- "server": receiving mail server
+
+Electronic Mail: SMTP [RFC 2821]
+- uses TCP to reliably traansfer email message from client to server, port 25
+- direct transfer: sending server to reeceiving server
+- three phases of tranasfer
+	- handshaking (Greeting)
+	- transfer of messages
+	- closure
+- command/response interaction (like HTTP)
+	- commands: ASCII text
+	- response: status code and phrase
+- messages must be in 7-bit ASCII
+
+Scenario: Alice sends message to Bob
+
+1. alice uses UA to compose message "to" bob@someschool.edu
+2. Alice's UA sends message to her mail server; message placed in message queue
+3. client side of SMTP opens TCP connection with Bob's mail server
+4. SMTP client sends Alice's message over the TCP connection
+5. Bob's mail server places the message in Bob's mailbox 
+6. Bob invokes his user agent to read message
+
+SMTP: final words
+
+- SMTP uses persistent connections
+- SMTP requires message (header & body) to be in 7-bit ASCII
+- SMTP server uses CRLF.CRLF determine end of message
+
+comparison with HTTP:
+- HTTP: pull
+- SMTP: push
+- both have ASCII command/response interaction, status codes
+- HTTP: each object encapsulated in its own response message
+- SMTP: multiple objects sent in multipart message
+
+Mail access protocols
+
+- SMTP: delivery/storage to receiver's server
+- mail access protocol: retrieval from server
+	- POP: post office protocol [RFC 1939]: authorization, download, using port 110 (non-encrypted port) by default or port 995 (using POP3 securely)
+	- IMAP: Internet Mail Access Protocol [RFC 1730]: more features, includnig manipulation of stored messages on server , using port 13 (non-encrypted port) by default or port 993 (using POP3 securely)
+	- HTTP: gmail, hotmail
+
+=== POP3 protocol === 
+
+Authorization phase
+- client commands:
+	- user: declare username
+	- pass: password
+- server responses:
+	- +OK
+	- -ERR
+- Transaction phase, client:
+	- list: list message numbers
+	- retr: retrieve messge by number
+	- dele: delete
+	- quit
+
+"plaintext" password over the network
+
+=== Domain Name System (DNS) === 
+
+People: many unique identifiers:
+- SIN, name, driver's license #, passport #
+Internet hosts, routers:
+- IP address (32 bit) - used for addressing datagrams
+- "name", e.g., www.uoguelph.ca - used by humans
+We need to map between IP addresses and name, and vice verse
+
+Solution: Domain Name System (DNS)
+
+DNS: Components
+
+- Generaal service: looking up an IP address using a humanly readable name (and vice versa)
+	- Address/name translation
+- Components:
+	- A naming system that reflects
+		- some properties of the host
+		- network hierarchy (potentially)
+	- Distributed database implemented in hierarchy of many name servsers
+		- Need to design the database
+	- Protocol: hosts, name servers communicate to resolve names - texr message exchange
+		- need a format for requests and responses
+		- transport-layer protocol: DNS uses UDP and TCP
+		- Usually port 53
+
+DNS: services, structure
+
+DNS services
+- hostname to IP address translation
+- host aliasing
+	- canonical, alias names
+- mail server aliasing
+- load distribution
+	- replicated
+- Web servers: 
+	- many IP addresses correspond to one name
+
+Why not centralize DNS?
+- single point of failure
+- traffic volume
+- distant centralized database
+- maintenance
+
+A: doesn't scale!
+
+DNS: a distributed, hierarchical database
+
+client wants IP for amazon.com; 1st approximation:
+* client queries root server to find com DNS server
+* client queries .com DNS server to get amazon.comDNS server
+* client queries amazon.com DNS server to get IP address for www.amaazon.com
+
+DNS: root name servers
+
+- contacted by local name server that can not resolve name
+- root name server:
+	- contacts authoritative name server if name mapping not known 
+	- gets mapping
+	- returns mapping to local name server
+
+TLD, authoritative servers
+
+Top-level domain (TLD) servers:
+- responsible fro com, org, net, edu, aero, jobs, museums, and all top-level country domains, e.g.: uk, fra, ca, jp
+- network solutions maintains servers for .com TLD
+- Educause for .edu TLD
+
+Authoritative DNS servers:
+- Organization's own DNS server(s), providing authoritative hostname to IP mapping for organization's named hosts
+- can be maintained by organization or service provider
+
+Local DNS name server
+
+- does not strictly belong to hierarchy
+- each ISP has one
+	- also called "default name server"
+- when host makes DNS query, query is sent to its local DNS server
+	- has local cache of recent naame-to-address translation pairs (but may be out of date!)
+	- acts as proxy, forwards query into hierarchy
+
+DNS name resolution example 
+
+- host at cis.poly.edu wants IP address for gaia.cs.umass.edu
+
+iterated query:
+- contacted server replies with name of server to contact
+- "I don't know this but ask this server"
+
+recursive query:
+- puts burden of name resolution on contacted name server
+- heavy load at upper levels of hierarchy?
+
+DNS: caching, updating records
+- once (any) name server learns mapping, it caches mapping
+	- cache entries timeout (disappear) after some time (TTL) 
+		- Time-to-live, or TTL
+	- TLD servers typicaly cached in local name servers
+		- thus root name servers are not often visited
+- Cached entries may be out-of-daate (best effort name-to-address translaation!)
+	- if name host changes IP address, may not be known Internet-wide until all TTLs expire
+- update/notify mechanisms proposed IETF standard 
+	- RFC 2136
+
+DNS records
+
+DNS: distributed database storing resource records (RR)
+
+RR format: (name, value, type, ttl)
+
+type=A
+- name is hostname
+- value is IP address
+
+type=NS
+- name is domain (e.g., foo.com)
+- value is hostname of authoritative name server for this domain
+
+type=CNAME
+- name is alias name for some "canonical" (the real) name
+www.ibm.com is really servereast.backup2.ibm.com
+- value is canonical name
+
+type=MX
+- value is name of mailserver associated with name
+
+DNS record: Address
+
+- name value A ttl
+- type=A (aaddress)
+	- name is hostname
+	- value is IP address
+
+DNS protocol, messages
+
+- query and reply messages, both with same message format
+
+message header:
+- identification: 16 bit # for query, reply to query uses same #
+- flags:
+	- query or reply
+	- recursion desfired 
+	  recursion available
+	  reply is authoritative
+
+Inserting records into DNS
+- Example: new startup "Network Utopia"
+- Register name networkuptopia.com at DNS registrar (e.g., Network Solutions)
+	- provide names, IP addresses of authoritative name server (primary and secondary)
+	- registrar inserts two RR into .com TLD server:
+
+- create authoritataive server, containing
+	- type A record for your web server
+	- www.networkuptopia.com;
+	- type MX resource record for networkutopia.com
+
