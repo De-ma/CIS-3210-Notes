@@ -8,4 +8,4 @@
 - [[MATH*2000]]
 
 == Health ==
-- [[Receipes]]
+- [[Recipes]]
