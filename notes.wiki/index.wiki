@@ -1,6 +1,11 @@
 = Dema's Mega Wiki Stuff  =
 
+== Academics == 
 - [[Parallel Programming]]
 - [[Computer Networks]]
 - [[CIS*3750]]
 - [[Data Science]]
+- [[MATH*2000]]
+
+== Health ==
+- [[Receipes]]
